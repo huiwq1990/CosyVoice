@@ -28,5 +28,5 @@ jobs:
           echo "login aliyun registry"
           docker login --username=huiwq1990@163.com -p Cr@123456 registry.cn-beijing.aliyuncs.com/huiwq1990/public
           echo "build image"
-          tag=cosyvoice-v0.0.1
+          tag=cosyvoice-v0.0.2
           docker buildx build --platform=linux/amd64 --push -f runtime/python/Dockerfile -t registry.cn-beijing.aliyuncs.com/huiwq1990/public:${tag}-amd64 .
