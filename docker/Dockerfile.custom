@@ -1,0 +1,18 @@
+
+cat<<EOF > Dockerfile.tmp
+FROM modelscope-registry.cn-beijing.cr.aliyuncs.com/modelscope-repo/modelscope:ubuntu22.04-py311-torch2.3.1-1.26.0 as ms
+RUN modelscope download --cache_dir /root/pretrained_models/ --model iic/CosyVoice2-0.5B
+RUN modelscope download --cache_dir /root/pretrained_models/ --model iic/CosyVoice-ttsfrd
+RUN cd /tmp && wget https://github.com/user-attachments/files/18149385/spk2info.zip && unzip spk2info.zip
+
+FROM registry.cn-beijing.aliyuncs.com/huiwq1990/public:cosyvoice-v0.0.3
+WORKDIR /workspace/CosyVoice/
+COPY --from=ms /root/pretrained_models ./
+COPY --from=ms /tmp/spk2info.pt ./pretrained_models/CosyVoice2-0.5B
+RUN cd pretrained_models/CosyVoice-ttsfrd/ && unzip resource.zip -d .
+RUN cd pretrained_models/CosyVoice-ttsfrd/ && pip install ttsfrd-0.4.2-cp310-cp310-linux_x86_64.whl
+EOF
+
+docker buildx build --provenance=false --platform=linux/amd64 --push -t hub.jdcloud.com/jdos-edge/cosyvoice-amd64:v0.0.4 -f Dockerfile.tmp .
+
+# https://github.com/FunAudioLLM/CosyVoice/issues/729
