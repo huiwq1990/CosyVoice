@@ -27,8 +27,8 @@ jobs:
         run: |
           echo "login aliyun registry"
           docker pull registry.cn-hangzhou.aliyuncs.com/funasr_repo/funasr:funasr-runtime-sdk-gpu-0.2.1
-          docekr tag registry.cn-hangzhou.aliyuncs.com/funasr_repo/funasr:funasr-runtime-sdk-gpu-0.2.1 
-          docker login --username=huiwq1990@163.com -p Cr@123456 registry.cn-beijing.aliyuncs.com/huiwq1990/public:funasr-runtime-sdk-gpu-0.2.1
+          docekr tag registry.cn-hangzhou.aliyuncs.com/funasr_repo/funasr:funasr-runtime-sdk-gpu-0.2.1 registry.cn-beijing.aliyuncs.com/huiwq1990/public:funasr-runtime-sdk-gpu-0.2.1
+          docker login --username=huiwq1990@163.com -p Cr@123456 registry.cn-beijing.aliyuncs.com/huiwq1990/public
           docekr push registry.cn-beijing.aliyuncs.com/huiwq1990/public:funasr-runtime-sdk-gpu-0.2.1
 
       - name: Build the Docker image
